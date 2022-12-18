@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { Controller, useForm } from "react-hook-form";
 import { TextField, Button } from "@mui/material";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const defaultValues = {
   common: {
@@ -11,9 +13,19 @@ const defaultValues = {
   }
 };
 
+const validationSchema = yup.object({
+  common: yup.object({
+    phoneNumber: yup.string().required("Required"),
+    postCode: yup.string().required("Required"),
+    address: yup.string()
+  }),
+});
+
 const TestForm = () => {
-  const { handleSubmit, reset, control } = useForm({ defaultValues });
-  const [data, setData] = useState(null);
+  const { handleSubmit, reset, control } = useForm({
+    defaultValues,
+    resolver: yupResolver(validationSchema)
+  });
   return (
     <>
       <form onSubmit={handleSubmit((data) => console.log(data))}>
@@ -80,7 +92,7 @@ const TestForm = () => {
           />
         </div>
         <div style={{ marginTop: 600 }}>
-          <Button type="submit" variant="contained" >
+          <Button type="submit" variant="contained">
             Submit Form
           </Button>
         </div>
