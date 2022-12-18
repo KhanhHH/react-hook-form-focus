@@ -9,7 +9,8 @@ const defaultValues = {
   common: {
     phoneNumber: "",
     postCode: "",
-    address: ""
+    address: "",
+    prefecture: ""
   }
 };
 
@@ -17,7 +18,8 @@ const validationSchema = yup.object({
   common: yup.object({
     phoneNumber: yup.string().required("Required"),
     postCode: yup.string().required("Required"),
-    address: yup.string()
+    address: yup.string(),
+    prefecture:  yup.string().required("Required")
   }),
 });
 
@@ -33,7 +35,6 @@ const TestForm = () => {
           <Controller
             control={control}
             name="common.phoneNumber"
-            rules={{ required: true }}
             render={({
               field: { onChange, value, ref },
               fieldState: { error }
@@ -54,7 +55,6 @@ const TestForm = () => {
           <Controller
             control={control}
             name="common.postCode"
-            rules={{ required: true }}
             render={({
               field: { onChange, value, ref },
               fieldState: { error }
@@ -82,6 +82,26 @@ const TestForm = () => {
               <TextField
                 error={!!error}
                 label="Address"
+                margin="normal"
+                helperText={error?.message}
+                value={value}
+                onChange={onChange}
+                inputRef={ref}
+              />
+            )}
+          />
+        </div>
+        <div>
+          <Controller
+            control={control}
+            name="common.prefecture"
+            render={({
+              field: { onChange, value, ref },
+              fieldState: { error }
+            }) => (
+              <TextField
+                error={!!error}
+                label="Prefecture"
                 margin="normal"
                 helperText={error?.message}
                 value={value}
